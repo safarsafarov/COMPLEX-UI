@@ -19,3 +19,19 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
+
+struct Home : View {
+    @State var menu = 0
+    @State var page = 0
+    
+    var body: some View {
+        ZStack {
+            Color("Color").edgesIgnoringSafeArea(.all)
+            
+            VStack {
+                
+            }
+        }
+    }
+}
