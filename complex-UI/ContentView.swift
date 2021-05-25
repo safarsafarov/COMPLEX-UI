@@ -89,6 +89,65 @@ struct Home : View {
 }
 
 
+
+
+struct Card : View {
+    @Binding var page : Int
+    var width : CGFloat
+    var data : Type
+    
+    var body: some View {
+        VStack {
+            VStack{
+                
+                Text(self.data.name)
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .padding(.top,20)
+                
+                Text(self.data.cName)
+                    .foregroundColor(.gray)
+                    .padding(.vertical)
+                
+                Spacer(minLength: 0)
+                
+                Image(self.data.image)
+                    .resizable()
+                    .frame(width: self.width - (self.page == self.data.id ? 100 : 150), height: (self.page == self.data.id ? 250 : 200))
+                    .cornerRadius(20)
+                
+                Text(self.data.price)
+                    .fontWeight(.bold)
+                    .font(.title)
+                    .padding(.top, 20)
+                
+                Button(action: {
+                    
+                }){
+                    Text("Buy")
+                        .foregroundColor(.black)
+                        .padding(.vertical, 10)
+                        .padding(.horizontal, 30)
+                }
+                .background(Color("Color"))
+                .clipShape(Capsule())
+                .padding(.top, 20)
+                
+                Spacer(minLength: 0)
+            }
+            .padding(.horizontal, 20)
+            .padding(.vertical, 25)
+            .background(Color.white)
+            .cornerRadius(20)
+            .padding(.top, 25)
+            .padding(.vertical, self.page == data.id ? 0 : 25)
+            .padding(.horizotal, self.page == data.id ? 0 : 25)
+        }
+        .frame(width: self.width)
+        .animation(.default)
+    }
+}
+
 struct Carousel : UIViewRepresentable {
     
     func makeCoordinator() ->  Coordinator {
@@ -115,7 +174,9 @@ struct Carousel : UIViewRepresentable {
         
         let view1 = UIHostingController(rootView: List(page: self.$page))
         view1.view.frame = CGRect(x: 0, y: 0, width: total, height: self.height)
+        
         view1.view.backgroundColor = .clear
+        
         view.addSubview(view1.view)
         
         return view
