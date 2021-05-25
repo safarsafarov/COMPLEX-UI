@@ -107,7 +107,7 @@ struct Carousel : UIViewRepresentable {
         
         view.isPagingEnabled = true
         
-        view.contentSize - CGSize(width: total, height: 1.0)
+        view.contentSize = CGSize(width: total, height: 1.0)
         view.bounces = true
         view.showsVerticalScrollIndicator = false
         view.showsHorizontalScrollIndicator = false
@@ -134,8 +134,51 @@ struct Carousel : UIViewRepresentable {
         }
         
         func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-            let 
+            let page = Int(scrollView.contentOffset.x / UIScreen.main.bounds.width)
+            self.parent.page = page
         }
-        
     }
 }
+
+
+struct PageControl : UIViewRepresentable {
+    @Binding var page : Int
+    
+    func makeUIView(context: Context) -> UIPageControl {
+        let view = UIPageControl()
+        view.currentPageIndicatorTintColor = .black
+        view.currentPageIndicatorTintColor = UIColor.black.withAlphaComponent(0.2)
+        view.numberOfPages = data.count
+        return view
+    }
+    
+    func updateUIView(_ uiView: UIPageControl, context: Context) {
+        DispatchQueue.main.async {
+            uiView.currentPage = self.page
+        }
+    }
+}
+
+struct Type : Identifiable {
+    var id : Int
+    var name : String
+    var cName : String
+    var price : String
+    var image : String
+}
+
+var data = [
+    Type(id: 0, name: "Sobo Noodles", cName: "Chinese", price: "$25", image: "soba"),
+    Type(id: 0, name: "Rick Strick Noodles", cName: "Italian", price: "$18", image: "rice"),
+    Type(id: 0, name: "Hokkien Noodles", cName: "Chinese", price: "$55", image: "hokkien"),
+    Type(id: 0, name: "Mung Bean Noodles", cName: "Chinese", price: "$28", image: "bean"),
+    Type(id: 0, name: "Udon Noodles", cName: "Chinese", price: "$15", image: "udon")
+]
+
+
+
+
+
+
+
+
