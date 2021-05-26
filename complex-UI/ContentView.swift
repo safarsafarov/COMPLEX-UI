@@ -52,14 +52,15 @@ struct Home : View {
                     
                     Text("Food Items")
                         .font(.system(size: 22))
+                        .foregroundColor(.white)
                 }
                 
-                HStack{
+                HStack(spacing: 15){
                     Button(action: {
                         self.menu = 0
                     }) {
                         Text("Chinese")
-                            .foregroundColor(self.menu == 0 ? .white : .black)
+                            .foregroundColor(self.menu == 0 ? .white : .blue)
                             .padding(.vertical)
                             .padding(.horizontal, 20)
                         
@@ -68,10 +69,21 @@ struct Home : View {
                     .clipShape(Capsule())
                     
                     Button(action: {
+                        self.menu = 1
+                    }) {
+                        Text("Italian")
+                            .foregroundColor(self.menu == 1 ? .white : .blue)
+                            .padding(.vertical, 10)
+                            .padding(.horizontal, 20)
+                    }
+                    .background(self.menu == 1 ? Color.black : Color.white)
+                    .clipShape(Capsule())
+                    
+                    Button(action: {
                         self.menu = 2
                     }) {
                         Text("Mexican")
-                            .foregroundColor(self.menu == 2 ? .white : .black)
+                            .foregroundColor(self.menu == 2 ? .white : .blue)
                             .padding(.vertical, 10)
                             .padding(.horizontal, 20)
                     }
@@ -81,14 +93,24 @@ struct Home : View {
                 .padding(.top, 30)
                 
                 GeometryReader{g in
-                    Carousel(width: UIscreen.main.bounds.width, page: self.$page, height: g.frame(in: .global).height)
+                    Carousel(width: UIScreen.main.bounds.width, page: self.$page, height: g.frame(in: .global).height)
                 }
             }
         }
     }
 }
 
-
+struct List : View {
+    @Binding var page : Int
+    
+    var body: some View {
+        HStack(spacing: 0) {
+            ForEach(data){i in
+                Card(page: self.$page, width: UIScreen.main.bounds.width, data: i)
+            }
+        }
+    }
+}
 
 
 struct Card : View {
@@ -125,7 +147,7 @@ struct Card : View {
                     
                 }){
                     Text("Buy")
-                        .foregroundColor(.black)
+                        .foregroundColor(.white)
                         .padding(.vertical, 10)
                         .padding(.horizontal, 30)
                 }
@@ -141,7 +163,7 @@ struct Card : View {
             .cornerRadius(20)
             .padding(.top, 25)
             .padding(.vertical, self.page == data.id ? 0 : 25)
-            .padding(.horizotal, self.page == data.id ? 0 : 25)
+            .padding(.horizontal, self.page == data.id ? 0 : 25)
         }
         .frame(width: self.width)
         .animation(.default)
